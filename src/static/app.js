@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
   const activitiesList = document.getElementById("activities-list");
   const activitySelect = document.getElementById("activity");
   const signupForm = document.getElementById("signup-form");
@@ -27,7 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="participants-section">
               <strong>Participants:</strong>
               <ul class="participants-list">
-                ${details.participants.map(email => `<li>${email}</li>`).join("")}
+                ${details.participants.map(email => `
+                  <li style="list-style-type: none; display: flex; align-items: center;">
+                    <span style="flex-grow: 1;">${email}</span>
+                    <button style="margin-left: 8px; background: none; border: none; cursor: pointer; font-size: 1.1em;" title="Unregister participant" onclick="removeParticipant(this)">
+                      🗑️
+                    </button>
+                  </li>
+                `).join("")}
               </ul>
             </div>
           `;
@@ -105,3 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize app
   fetchActivities();
 });
+
+function removeParticipant(button) {
+  const li = button.parentElement;
+  li.parentElement.removeChild(li);
+}
